@@ -1,8 +1,5 @@
-import torch
-
 # Import the model class from the main file.
-from src.Classifier import Classifier
-
+from sklearn.linear_model import LinearRegression
 import os
 import argparse
 import wandb
@@ -22,10 +19,9 @@ if not os.path.exists("./model"):
     os.makedirs("./model")
 
 # Data parameters testing
-num_classes = 10
-input_shape = 784
+input_shape = 150
 
-def build_model_and_log(config, model, model_name="MLP", model_description="Simple MLP"):
+def build_model_and_log(config, model, model_name="Linear Regression", model_description="Simple Linear"):
     with wandb.init(project="MLOps-Pycon2023", 
         name=f"initialize Model ExecId-{args.IdExecution}", 
         job_type="initialize-model", config=config) as run:
@@ -36,11 +32,8 @@ def build_model_and_log(config, model, model_name="MLP", model_description="Simp
             description=model_description,
             metadata=dict(config))
 
-        name_artifact_model = f"initialized_model_{model_name}.pth"
-
-        torch.save(model.state_dict(), f"./model/{name_artifact_model}")
-        # ➕ another way to add a file to an Artifact
-        model_artifact.add_file(f"./model/{name_artifact_model}")
+        # Add the model to the artifact
+        model_artifact.add_file(f"./model/{model_filename}")
 
         wandb.save(name_artifact_model)
 
@@ -48,12 +41,9 @@ def build_model_and_log(config, model, model_name="MLP", model_description="Simp
 
 
 # MLP
-# Testing config
-model_config = {"input_shape":input_shape,
-                "hidden_layer_1": 32,
-                "hidden_layer_2": 64,
-                "num_classes":num_classes}
+# Model configuration
+model_config = {"input_shape": input_shape}
 
-model = Classifier(**model_config)
+model = LinearRegression()
 
-build_model_and_log(model_config, model, "linear","Simple Linear Classifier")
+build_model_and_log(model_config, model, "linear", "Simple Linear Regression Model")
