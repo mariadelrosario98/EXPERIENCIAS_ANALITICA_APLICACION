@@ -6,7 +6,6 @@ import wandb
 import numpy as np
 from io import StringIO
 
-#
 parser = argparse.ArgumentParser()
 parser.add_argument('--IdExecution', type=str, help='ID of the execution')
 args = parser.parse_args()
