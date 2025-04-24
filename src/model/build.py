@@ -19,7 +19,10 @@ if not os.path.exists("./model"):
     os.makedirs("./model")
 
 # Data parameters testing
-input_shape = 150
+input_shape = 4
+
+# Define the model filename before saving
+model_filename = "linear_regression_model.pkl"
 
 def build_model_and_log(config, model, model_name="Linear Regression", model_description="Simple Linear"):
     with wandb.init(project="MLOps-Pycon2023", 
@@ -31,6 +34,10 @@ def build_model_and_log(config, model, model_name="Linear Regression", model_des
             model_name, type="model",
             description=model_description,
             metadata=dict(config))
+        
+        # Save the trained model
+        with open(f"./model/{model_filename}", "wb") as f:
+            pickle.dump(model, f)
 
         # Add the model to the artifact
         model_artifact.add_file(f"./model/{model_filename}")
