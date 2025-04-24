@@ -1,11 +1,9 @@
-import torch
-import torchvision
-from torch.utils.data import TensorDataset
-
 #testing.
 import os
 import argparse
 import wandb
+from sklearn.preprocessing import StandardScaler
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--IdExecution', type=str, help='ID of the execution')
@@ -16,32 +14,40 @@ if args.IdExecution:
 else:
     args.IdExecution = "testing console"
 
-def preprocess(dataset, normalize=True, expand_dims=True):
+def normalize_datasets(train, val, test):
     """
-    ## Prepare the data
+    Standardizes features by removing the mean and scaling to unit variance.
+
+    Parameters:
+        train, val, test: Tuples in the form (X, y)
+
+    Returns:
+        Normalized versions of (X_train, y_train), (X_val, y_val), (X_test, y_test)
     """
-    x, y = dataset.tensors
+    X_train, y_train = train
+    X_val, y_val = val
+    X_test, y_test = test
 
-    if normalize:
-        # Scale images to the [0, 1] range
-        x = x.type(torch.float32) / 255
+    # Fit scaler on training data only
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
 
-    if expand_dims:
-        # Make sure images have shape (1, 28, 28)
-        x = torch.unsqueeze(x, 1)
-    
-    return TensorDataset(x, y)
+    # Apply same scaler to validation and test
+    X_val_scaled = scaler.transform(X_val)
+    X_test_scaled = scaler.transform(X_test)
+
+    return (X_train_scaled, y_train), (X_val_scaled, y_val), (X_test_scaled, y_test)
 
 def preprocess_and_log(steps):
 
     with wandb.init(project="MLOps-Pycon2023",name=f"Preprocess Data ExecId-{args.IdExecution}", job_type="preprocess-data") as run:    
         processed_data = wandb.Artifact(
-            "mnist-preprocess", type="dataset",
-            description="Preprocessed MNIST dataset",
+            "iris-preprocess", type="dataset",
+            description="Preprocessed IRIS dataset",
             metadata=steps)
          
         # ✔️ declare which artifact we'll be using
-        raw_data_artifact = run.use_artifact('mnist-raw:latest')
+        raw_data_artifact = run.use_artifact('iris:latest')
 
         # 📥 if need be, download the artifact
         raw_dataset = raw_data_artifact.download(root="./data/artifacts/")
@@ -62,7 +68,6 @@ def read(data_dir, split):
 
     return TensorDataset(x, y)
 
-steps = {"normalize": True,
-         "expand_dims": False}
+steps = {"normalize": True}
 
 preprocess_and_log(steps)
