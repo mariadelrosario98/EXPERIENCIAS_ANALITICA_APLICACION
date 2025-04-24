@@ -28,7 +28,7 @@ def normalize_datasets(train, val, test):
     X_val, y_val = val
     X_test, y_test = test
 
-    # Fit scaler on training data only
+    # Fit scaler on training data only.
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
 
