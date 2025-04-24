@@ -79,5 +79,5 @@ def load_and_log():
 
         run.log_artifact(raw_data)
 
-# Run the function
+# Run the function.
 load_and_log()
