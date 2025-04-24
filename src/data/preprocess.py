@@ -63,10 +63,14 @@ def preprocess_and_log(steps):
         run.log_artifact(processed_data)
 
 def read(data_dir, split):
-    filename = split + ".pt"
-    x, y = torch.load(os.path.join(data_dir, filename))
+    filename = split + ".csv"
+    df = pd.read_csv(os.path.join(data_dir, filename))
 
-    return TensorDataset(x, y)
+    # Split features and target
+    X = df.drop(columns=["target"]).values
+    y = df["target"].values
+
+    return X, y
 
 steps = {"normalize": True}
 
