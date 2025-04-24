@@ -3,6 +3,7 @@ from sklearn.linear_model import LinearRegression
 import os
 import argparse
 import wandb
+import pickle
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--IdExecution', type=str, help='ID of the execution')
