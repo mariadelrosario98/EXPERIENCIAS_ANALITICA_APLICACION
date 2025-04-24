@@ -13,8 +13,7 @@ args = parser.parse_args()
 if args.IdExecution:
     print(f"IdExecution: {args.IdExecution}")
 
-def load():
-    # Load Iris dataset
+def load(train_size=0.8, val_size=0.1, random_state=42):
     iris = load_iris()
     X = iris.data
     y = iris.target
