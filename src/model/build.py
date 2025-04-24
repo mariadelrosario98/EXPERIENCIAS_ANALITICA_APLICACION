@@ -27,8 +27,8 @@ model_filename = "linear_regression_model.pkl"
 
 def build_model_and_log(config, model, model_name="Linear Regression", model_description="Simple Linear"):
     with wandb.init(project="MLOps-Pycon2023", 
-        name=f"initialize Model ExecId-{args.IdExecution}", 
-        job_type="initialize-model", config=config) as run:
+                    name=f"initialize Model ExecId-{args.IdExecution}", 
+                    job_type="initialize-model", config=config) as run:
         config = wandb.config
 
         model_artifact = wandb.Artifact(
@@ -43,15 +43,16 @@ def build_model_and_log(config, model, model_name="Linear Regression", model_des
         # Add the model to the artifact
         model_artifact.add_file(f"./model/{model_filename}")
 
-        wandb.save(name_artifact_model)
+        # Corrected line: use the defined model_filename
+        wandb.save(f"./model/{model_filename}")
 
         run.log_artifact(model_artifact)
 
 
-# MLP
 # Model configuration
 model_config = {"input_shape": input_shape}
 
 model = LinearRegression()
 
+# Log the model and configuration
 build_model_and_log(model_config, model, "linear", "Simple Linear Regression Model")
