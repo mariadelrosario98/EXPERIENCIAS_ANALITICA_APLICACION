@@ -36,7 +36,7 @@ def load(train_size=0.8, val_size=0.1, random_state=42):
 def load_and_log():
     # 🚀 Start a W&B run
     with wandb.init(
-        project="MLOps-Pycon2023-2",
+        project="MLOps-Pycon2023",
         name=f"Load Raw Data ExecId-{args.IdExecution}",
         job_type="load-data"
     ) as run:
