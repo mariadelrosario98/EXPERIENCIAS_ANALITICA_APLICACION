@@ -71,7 +71,7 @@ def load_and_log():
             with raw_data.new_file(f"{name}.csv", mode="w") as f:
                 df.to_csv(f, index=False)
 
-        # 📦 Log the artifact to W&B
+        # 📦 Log the artifact to W&B.
         run.log_artifact(raw_data)
 
 # testing
