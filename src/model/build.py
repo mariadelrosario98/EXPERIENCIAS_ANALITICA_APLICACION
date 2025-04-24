@@ -1,5 +1,5 @@
 # Import the model class from the main file.
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 import os
 import argparse
 import wandb
