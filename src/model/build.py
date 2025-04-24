@@ -25,7 +25,10 @@ input_shape = 4
 # Define the model filename before saving
 model_filename = "linear_regression_model.pkl"
 
-def build_model_and_log(config, model, model_name="Linear Regression", model_description="Simple Linear"):
+# Define the model filename before saving
+model_filename = "multinomial_logistic_regression_model.pkl"
+
+def build_model_and_log(config, model, model_name="Multinomial Logistic Regression", model_description="Multinomial Logistic Regression for Classification"):
     with wandb.init(project="MLOps-Pycon2023", 
                     name=f"initialize Model ExecId-{args.IdExecution}", 
                     job_type="initialize-model", config=config) as run:
@@ -35,7 +38,7 @@ def build_model_and_log(config, model, model_name="Linear Regression", model_des
             model_name, type="model",
             description=model_description,
             metadata=dict(config))
-        
+
         # Save the trained model
         with open(f"./model/{model_filename}", "wb") as f:
             pickle.dump(model, f)
@@ -43,7 +46,7 @@ def build_model_and_log(config, model, model_name="Linear Regression", model_des
         # Add the model to the artifact
         model_artifact.add_file(f"./model/{model_filename}")
 
-        # Corrected line: use the defined model_filename
+        # Save the artifact to WandB
         wandb.save(f"./model/{model_filename}")
 
         run.log_artifact(model_artifact)
@@ -52,7 +55,7 @@ def build_model_and_log(config, model, model_name="Linear Regression", model_des
 # Model configuration
 model_config = {"input_shape": input_shape}
 
-model = LinearRegression()
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=1000)
 
 # Log the model and configuration
-build_model_and_log(model_config, model, "linear", "Simple Linear Regression Model")
+build_model_and_log(model_config, model, "multinomial_logistic_regression", "Multinomial Logistic Regression for Iris Classification")
