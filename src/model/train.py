@@ -19,21 +19,17 @@ if args.IdExecution:
 else:
     args.IdExecution = "testing console"
 
-# Device configuration
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print("Device: ", device)
-
 
 def read(data_dir, split):
     """
-    Read data from a directory and return a TensorDataset object.
+    Read data from a directory and return the df read in pd.
 
     Args:
     - data_dir (str): The directory where the data is stored.
     - split (str): The name of the split to read (e.g. "train", "valid", "test").
 
     Returns:
-    - dataset (TensorDataset): A TensorDataset object containing the data.
+    - dataset (in pandas): a df
     """
     filename = split + ".pt"
     x, y = torch.load(os.path.join(data_dir, filename))
