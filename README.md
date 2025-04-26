@@ -1,4 +1,4 @@
-# 🧪 MLOps Workshop - PyCon 2023: Logistic Regression with Iris Dataset
+# 🧪 MLOps Workshop: Logistic Regression with Iris Dataset
 
 Este repositorio presenta una implementación práctica de un flujo de trabajo MLOps utilizando [Weights & Biases (WandB)](https://wandb.ai/) para la gestión del ciclo de vida del modelo de Machine Learning y [GitHub Actions](https://github.com/features/actions) para la integración y entrega continua. El modelo aplicado es una **regresión logística multinomial** entrenada con el famoso dataset **Iris**.
 
