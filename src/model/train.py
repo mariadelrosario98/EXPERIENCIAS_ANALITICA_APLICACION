@@ -63,7 +63,7 @@ def train_and_evaluate(config, experiment_id='99'):
         data_dir = data_artifact.download()
 
 
-        X_train, y_train = read_csv_data(data_dir, "train")
+        X_train, y_train = read_csv_data(data_dir, "training") 
         X_val, y_val = read_csv_data(data_dir, "validation")
         X_test, y_test = read_csv_data(data_dir, "test")
 
