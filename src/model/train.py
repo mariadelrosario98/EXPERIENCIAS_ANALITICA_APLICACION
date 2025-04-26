@@ -59,8 +59,9 @@ def train_and_evaluate(config, experiment_id='99'):
         name=f"Train-Eval LogisticRegression ExecId-{args.IdExecution} ExperimentId-{experiment_id}",
         job_type="train-eval", config=config) as run:
 
-        data = run.use_artifact('iris-preprocessed:latest')
+        data_artifact = run.use_artifact('iris-preprocessed:latest')
         data_dir = data_artifact.download()
+
 
         X_train, y_train = read_csv_data(data_dir, "train")
         X_val, y_val = read_csv_data(data_dir, "validation")
